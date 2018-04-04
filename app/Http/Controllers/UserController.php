@@ -42,7 +42,6 @@ class UserController extends Controller
       // retorna um erro que foi passado no throw
       return response()->json(['error' => true, 'message' => $e->getMessage()], 401);
     }
-      
   }
 
 
@@ -78,6 +77,13 @@ class UserController extends Controller
   public function deleteUser(Request $request)
   {
 
+    $data = 
+    [
+      "name"     => $request->get('name'),//passando o parametro da request para name
+      "email"    => $request->get('email'),
+      "password" => bcrypt($request->get('password'))
+    ];
+
     try
     {
       $user = User::where('id', $request->get('id') )->delete();
@@ -92,7 +98,31 @@ class UserController extends Controller
     {
       return response()->json(['error' => true, 'message' => $e->getMessage()], 401);
     }
+  }
 
+  public function listAllUser(Request $request)
+  {
+    try
+    {
+      
+      $user = User::all();
+     //$user = User::all('name');
+
+      if( !$user )
+      {
+        throw new \Exception('não há usuarios!');
+      }
+      return $user;
+      //return response()->json(['error' => false,'message' => 'Listagem de usuarios!'], 200);
+      
     }
+    catch (\Exception $e)
+    {
+      return response()->json(['error' => true, 'message' => $e->getMessage()], 401);
+    }
+
+
+  }
+
 
 } 

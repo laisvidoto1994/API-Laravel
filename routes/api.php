@@ -45,4 +45,8 @@ Route::middleware('auth:api')->group(function()
 
     // rota de Delete dos dados do banco
     Route::post('/user/delete', 'UserController@deleteUser');  
+
+     // rota de Listagem dos dados do banco
+     Route::post('/user/lista', 'UserController@listAllUser');  
+
 });
